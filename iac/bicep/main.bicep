@@ -48,15 +48,15 @@ module secrets './modules/secrets.bicep' = {
     secrets: [
       {
         name: 'fabric-capacity-admin-username'
-        value: 'adminUser' // Replace with actual admin user
+        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual admin user
       }
       {
         name: 'sqlserver-ad-admin-username'
-        value: 'sqlAdminUser' // Replace with actual SQL admin user
+        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual SQL admin user
       }
       {
         name: 'sqlserver-ad-admin-sid'
-        value: 'sqlAdminSid' // Replace with actual SQL admin SID
+        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual SQL admin SID
       }
     ]
   }
