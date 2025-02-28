@@ -48,15 +48,15 @@ module secrets './modules/secrets.bicep' = {
     secrets: [
       {
         name: 'fabric-capacity-admin-username'
-        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual admin user
+        value: 'adminUser' // Replace with actual admin user
       }
       {
         name: 'sqlserver-ad-admin-username'
-        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual SQL admin user
+        value: 'sqlAdminUser' // Replace with actual SQL admin user
       }
       {
         name: 'sqlserver-ad-admin-sid'
-        value: 'dcd3073a-b622-498f-ba2b-25f8447faac1' // Replace with actual SQL admin SID
+        value: 'sqlAdminSid' // Replace with actual SQL admin SID
       }
     ]
   }
@@ -76,7 +76,7 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
   }
 }
 
-// Deploy SQL control DB
+// Deploy SQL server and control DB
 module controldb './modules/sqldb.bicep' = {
   name: controldb_deployment_name
   params: {
