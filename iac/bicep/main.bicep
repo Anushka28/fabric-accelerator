@@ -72,7 +72,7 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
     cost_centre_tag: cost_centre_tag
     owner_tag: owner_tag
     sme_tag: sme_tag
-    adminUsers: kv_ref.getSecret('fabric-capacity-admin-username')
+    adminUsers: listSecrets(kv_ref.id, '2023-07-01').properties['fabric-capacity-admin-username']
     skuName: 'F4' // Default Fabric Capacity SKU F2
   }
 }

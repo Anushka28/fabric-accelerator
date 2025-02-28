@@ -37,7 +37,6 @@ param skuTier string = 'Fabric'
 @secure()
 param adminUsers string
 
-
 // Variables
 var suffix = uniqueString(resourceGroup().id)
 var fabric_uniquename = '${fabric_name}${suffix}'
