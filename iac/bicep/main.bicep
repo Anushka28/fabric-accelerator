@@ -65,6 +65,7 @@ module secrets './modules/secrets.bicep' = {
 // Deploy Microsoft Fabric Capacity
 module fabric_capacity './modules/fabric-capacity.bicep' = {
   name: fabric_deployment_name
+  dependsOn: [secrets]
   params: {
     fabric_name: 'bafabric01'
     location: rglocation
@@ -76,9 +77,10 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
   }
 }
 
-// Deploy SQL server and control DB
+// Deploy SQL control DB
 module controldb './modules/sqldb.bicep' = {
   name: controldb_deployment_name
+  dependsOn: [secrets]
   params: {
     sqlserver_name: 'ba-sql01'
     database_name: 'controlDB'
