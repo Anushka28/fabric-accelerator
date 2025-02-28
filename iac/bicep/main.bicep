@@ -56,7 +56,7 @@ module secrets './modules/secrets.bicep' = {
       }
       {
         name: 'sqlserver-ad-admin-sid'
-        value: '868c7499-b54c-48b3-9030-55f0b79d81b2' // Replace with actual SQL admin SID
+        value: 'dcd3073a-b622-498f-ba2b-25f8447faac1' // Replace with actual SQL admin SID
       }
     ]
   }
