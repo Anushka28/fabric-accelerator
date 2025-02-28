@@ -1,10 +1,10 @@
-@description('Name of SQL Server')
+@description('SQL Server name')
 param sqlserver_name string
 
-@description('Name of Database')
+@description('Database name')
 param database_name string
 
-@description('Azure Location SQL Server')
+@description('Location where resources will be deployed. Defaults to resource group location')
 param location string = resourceGroup().location
 
 @description('Cost Centre tag that will be applied to all resources in this deployment')
@@ -16,12 +16,10 @@ param owner_tag string
 @description('Subject Matter Expert (SME) tag that will be applied to all resources in this deployment')
 param sme_tag string
 
-@description('AD server admin user name')
-@secure()
+@description('Azure AD admin username for the SQL Server')
 param ad_admin_username string
 
-@description('SID (object ID) of the server administrator')
-@secure()
+@description('Azure AD admin SID for the SQL Server')
 param ad_admin_sid string
 
 @description('Database SKU name, e.g P3. For valid values, run this CLI az sql db list-editions -l australiaeast -o table')
