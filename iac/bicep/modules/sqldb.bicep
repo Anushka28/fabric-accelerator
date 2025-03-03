@@ -1,10 +1,11 @@
-@description('SQL Server name')
+// Parameters
+@description('The name of the SQL server.')
 param sqlserver_name string
 
-@description('Database name')
+@description('The name of the database.')
 param database_name string
 
-@description('Location where resources will be deployed. Defaults to resource group location')
+@description('The Azure Region to deploy the resources into.')
 param location string = resourceGroup().location
 
 @description('Cost Centre tag that will be applied to all resources in this deployment')
@@ -16,91 +17,66 @@ param owner_tag string
 @description('Subject Matter Expert (SME) tag that will be applied to all resources in this deployment')
 param sme_tag string
 
-@description('Azure AD admin username for the SQL Server')
+@description('The Active Directory admin username for the SQL server.')
+@secure()
 param ad_admin_username string
 
-@description('Azure AD admin SID for the SQL Server')
+@description('The Active Directory admin SID for the SQL server.')
+@secure()
 param ad_admin_sid string
 
-@description('Database SKU name, e.g P3. For valid values, run this CLI az sql db list-editions -l australiaeast -o table')
-param database_sku_name string ='GP_S_Gen5_1'
+@description('The auto-pause duration for the database.')
+param auto_pause_duration int = 60
 
-@description('Time in minutes after which database is automatically paused')
-param auto_pause_duration int =60
-
-@description('Flag to indicate whether to enable audit logging of SQL Server')
-param enable_audit bool = false
+@description('The SKU name for the database.')
+param database_sku_name string = 'GP_S_Gen5_1'
 
 // Variables
 var suffix = uniqueString(resourceGroup().id)
-var sqlserver_unique_name = '${sqlserver_name}-${suffix}'
+var sqlserver_uniquename = '${sqlserver_name}${suffix}'
+var database_uniquename = '${database_name}${suffix}'
 
-// Deploy SQL Server
-resource sqlserver 'Microsoft.Sql/servers@2023-08-01-preview' = {
-  name: sqlserver_unique_name
+// Resource: SQL Server
+resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
+  name: sqlserver_uniquename
   location: location
   tags: {
     CostCentre: cost_centre_tag
     Owner: owner_tag
     SME: sme_tag
   }
-  identity: { type: 'SystemAssigned' }
   properties: {
-    administrators: {
-      administratorType: 'ActiveDirectory'
-      azureADOnlyAuthentication: true
-      login: ad_admin_username
-      sid: ad_admin_sid
-      principalType: 'User'
-      tenantId: subscription().tenantId
-    }
-    minimalTlsVersion: '1.2'
+    administratorLogin: ad_admin_username
+    administratorLoginPassword: ad_admin_sid
   }
 }
 
-// Create firewall rule to Allow Azure services and resources to access this SQL Server
-resource allowAzure_Firewall 'Microsoft.Sql/servers/firewallRules@2021-11-01' = {
-  name: 'AllowAllWindowsAzureIps'
-  parent: sqlserver
-  properties: {
-    startIpAddress: '0.0.0.0'
-    endIpAddress: '0.0.0.0'
-  }
-}
-
-// Deploy database
-resource database 'Microsoft.Sql/servers/databases@2021-11-01' = {
-  name: database_name
+// Resource: SQL Database
+resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {
+  name: '${sqlserver_uniquename}/${database_uniquename}'
   location: location
   tags: {
     CostCentre: cost_centre_tag
     Owner: owner_tag
     SME: sme_tag
   }
-  sku: { name: database_sku_name }
-  parent: sqlserver
+  sku: {
+    name: database_sku_name
+  }
   properties: {
     autoPauseDelay: auto_pause_duration
   }
 }
 
-// Deploy audit diagnostics Azure SQL Server to storage account
-resource sqlserver_audit 'Microsoft.Sql/servers/auditingSettings@2023-08-01-preview' = if(enable_audit) {
-  name: 'default'
-  parent: sqlserver
-  properties: {
-    auditActionsAndGroups: ['BATCH_COMPLETED_GROUP', 'SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP', 'FAILED_DATABASE_AUTHENTICATION_GROUP']
-    isAzureMonitorTargetEnabled: true
-    isDevopsAuditEnabled: true
-    isManagedIdentityInUse: true
-    isStorageSecondaryKeyInUse: false
-    retentionDays: 90
-    state: 'Enabled'
-    storageAccountSubscriptionId: subscription().subscriptionId
-  }
-}
+// Outputs
+@description('The ID of the SQL server.')
+output sqlServerId string = sqlServer.id
 
-output sqlserver_uniquename string = sqlserver.name
-output database_name string = database.name
-output sqlserver_resource object = sqlserver
-output database_resource object = database
+@description('The name of the SQL server.')
+output sqlServerName string = sqlServer.name
+
+@description('The ID of the SQL database.')
+output sqlDatabaseId string = sqlDatabase.id
+
+@description('The name of the SQL database.')
+output sqlDatabaseName string = sqlDatabase.name

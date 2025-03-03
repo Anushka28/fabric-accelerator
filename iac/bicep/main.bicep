@@ -72,7 +72,7 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
     cost_centre_tag: cost_centre_tag
     owner_tag: owner_tag
     sme_tag: sme_tag
-    adminUsers: listSecrets(kv_ref.id, '2023-07-01').properties['fabric-capacity-admin-username']
+    adminUsers: kv_ref.getSecret('fabric-capacity-admin-username')
     skuName: 'F4' // Default Fabric Capacity SKU F2
   }
 }
@@ -88,8 +88,8 @@ module controldb './modules/sqldb.bicep' = {
     cost_centre_tag: cost_centre_tag
     owner_tag: owner_tag
     sme_tag: sme_tag
-    ad_admin_username: listSecrets(kv_ref.id, '2023-07-01').properties['sqlserver-ad-admin-username']
-    ad_admin_sid: listSecrets(kv_ref.id, '2023-07-01').properties['sqlserver-ad-admin-sid']
+    ad_admin_username: kv_ref.getSecret('sqlserver-ad-admin-username')
+    ad_admin_sid: kv_ref.getSecret('sqlserver-ad-admin-sid')
     auto_pause_duration: 60
     database_sku_name: 'GP_S_Gen5_1'
   }
