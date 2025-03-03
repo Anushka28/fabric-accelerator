@@ -58,6 +58,10 @@ module secrets './modules/secrets.bicep' = {
         name: 'sqlserver-ad-admin-sid'
         value: 'sqlAdminSid' // Replace with actual SQL admin SID
       }
+      {
+        name: 'sqlserver-admin-password'
+        value: 'ComplexP@ssw0rd!' // Replace with a secure password
+      }
     ]
   }
 }
@@ -90,6 +94,7 @@ module controldb './modules/sqldb.bicep' = {
     sme_tag: sme_tag
     ad_admin_username: kv_ref.getSecret('sqlserver-ad-admin-username')
     ad_admin_sid: kv_ref.getSecret('sqlserver-ad-admin-sid')
+    admin_password: kv_ref.getSecret('sqlserver-admin-password')
     auto_pause_duration: 60
     database_sku_name: 'GP_S_Gen5_1'
   }

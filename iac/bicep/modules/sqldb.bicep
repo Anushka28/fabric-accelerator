@@ -25,6 +25,10 @@ param ad_admin_username string
 @secure()
 param ad_admin_sid string
 
+@description('The password for the SQL server administrator.')
+@secure()
+param admin_password string
+
 @description('The auto-pause duration for the database.')
 param auto_pause_duration int = 60
 
@@ -47,7 +51,7 @@ resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
   }
   properties: {
     administratorLogin: ad_admin_username
-    administratorLoginPassword: ad_admin_sid
+    administratorLoginPassword: admin_password
   }
 }
 
