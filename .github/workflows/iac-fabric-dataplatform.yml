@@ -13,10 +13,14 @@ jobs:
     # Checkout code
     - uses: actions/checkout@v3
     
-    #Log into Azure
+    # Log into Azure
     - uses: azure/login@v1
       with:
            creds: '{"clientId":"${{ secrets.ACTION_SPN_CLIENTID }}","clientSecret":"${{ secrets.ACTION_SPN_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+
+    # Run script to delete conflicting resources
+    - name: Delete conflicting resources
+      run: bash scripts/delete-conflicting-resources.sh
 
     # Deploy Bicep file
     - name: deploy
