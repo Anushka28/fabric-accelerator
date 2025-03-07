@@ -70,6 +70,9 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2021-02-01-preview' = {
   properties: {
     autoPauseDelay: auto_pause_duration
   }
+  dependsOn: [
+    sqlServer
+  ]
 }
 
 // Outputs
