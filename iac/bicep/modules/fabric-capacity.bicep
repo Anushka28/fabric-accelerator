@@ -61,6 +61,35 @@ resource fabricCapacity 'Microsoft.Fabric/capacities@2023-11-01' = {
   }
 }
 
+// Diagnostic settings for Fabric Capacity
+// resource fabricCapacityDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+//   name: '${fabricCapacity.name}-diagnostics'
+//   scope: fabricCapacity
+//   properties: {
+//     logs: [
+//       {
+//         category: 'Administrative'
+//         enabled: true
+//         retentionPolicy: {
+//           enabled: true
+//           days: 30
+//         }
+//       }
+//     ]
+//     metrics: [
+//       {
+//         category: 'AllMetrics'
+//         enabled: true
+//         retentionPolicy: {
+//           enabled: true
+//           days: 30
+//         }
+//       }
+//     ]
+//     workspaceId: '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.OperationalInsights/workspaces/{workspace-name}' // Replace with your Log Analytics workspace ID
+//   }
+// }
+
 // Outputs
 @description('The ID of the Fabric Capacity.')
 output resourceId string = fabricCapacity.id

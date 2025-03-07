@@ -54,4 +54,33 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   }
 }
 
+// Diagnostic settings for Key Vault
+// resource keyvaultDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+//   name: '${keyvault.name}-diagnostics'
+//   scope: keyvault
+//   properties: {
+//     logs: [
+//       {
+//         category: 'AuditEvent'
+//         enabled: true
+//         retentionPolicy: {
+//           enabled: true
+//           days: 30
+//         }
+//       }
+//     ]
+//     metrics: [
+//       {
+//         category: 'AllMetrics'
+//         enabled: true
+//         retentionPolicy: {
+//           enabled: true
+//           days: 30
+//         }
+//       }
+//     ]
+//     workspaceId: '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.OperationalInsights/workspaces/{workspace-name}' // Replace with your Log Analytics workspace ID
+//   }
+// }
+
 output keyvault_name string = keyvault.name
