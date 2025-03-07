@@ -84,7 +84,7 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
 // Deploy SQL control DB
 module controldb './modules/sqldb.bicep' = {
   name: controldb_deployment_name
-  dependsOn: [kv, secrets]
+  dependsOn: [secrets]
   params: {
     sqlserver_name: 'ba-sql01'
     database_name: 'controlDB'
