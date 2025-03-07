@@ -69,7 +69,7 @@ module secrets './modules/secrets.bicep' = {
 // Deploy Microsoft Fabric Capacity
 module fabric_capacity './modules/fabric-capacity.bicep' = {
   name: fabric_deployment_name
-  dependsOn: [kv, secrets]
+  dependsOn: [secrets]
   params: {
     fabric_name: 'bafabric01'
     location: rglocation
