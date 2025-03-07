@@ -47,7 +47,7 @@ resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' = {
         permissions: { secrets: ['list', 'get', 'set', 'delete', 'recover'] }
       }
       { tenantId: subscription().tenantId
-        objectId: 'dcd3073a-b622-498f-ba2b-25f8447faac1' // Service principal ID
+        objectId: 'd88363cd-cc77-4ee7-9ac0-c007d78fd8f2' // Service principal ObjectID
         permissions: { secrets: ['list', 'get', 'set', 'delete', 'recover'] }
       }
     ]
