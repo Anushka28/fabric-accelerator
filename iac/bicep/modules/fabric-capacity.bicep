@@ -35,7 +35,7 @@ param skuTier string = 'Fabric'
 
 @description('The list of administrators for the Fabric Capacity instance.')
 @secure()
-param adminUsers string
+param adminUsers string = '30f93c8e-0d25-484d-92cb-532d0828186a,a90a3e69-5914-4fa3-b7a4-1180fef0aa41,d88363cd-cc77-4ee7-9ac0-c007d78fd8f2' // Replace with valid user IDs
 
 // Variables
 var suffix = uniqueString(resourceGroup().id)
