@@ -48,7 +48,7 @@ module secrets './modules/secrets.bicep' = {
     secrets: [
       {
         name: 'fabric-capacity-admin-username'
-        value: '30f93c8e-0d25-484d-92cb-532d0828186a,a90a3e69-5914-4fa3-b7a4-1180fef0aa41,d88363cd-cc77-4ee7-9ac0-c007d78fd8f2' // Replace with actual admin user
+        value: 'd88363cd-cc77-4ee7-9ac0-c007d78fd8f2' // Replace with actual admin user
       }
       {
         name: 'sqlserver-ad-admin-username'
@@ -76,7 +76,7 @@ module fabric_capacity './modules/fabric-capacity.bicep' = {
     cost_centre_tag: cost_centre_tag
     owner_tag: owner_tag
     sme_tag: sme_tag
-    adminUsers: kv_ref.getSecret('fabric-capacity-admin-username')
+    adminUsers: kv_ref.getSecret('fabric-capacity-admin-username') // Pass the value as a single string
     skuName: 'F2' // Default Fabric Capacity SKU F2
   }
 }
